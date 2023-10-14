@@ -1,9 +1,6 @@
 package com.example.recomendationservice.service;
 
-import com.example.recomendationservice.dto.CoordinatesDepartmentDto;
-import com.example.recomendationservice.dto.DepartmentsIdDto;
-import com.example.recomendationservice.dto.FilterDto;
-import com.example.recomendationservice.dto.SimpleStatisticDto;
+import com.example.recomendationservice.dto.*;
 import com.example.recomendationservice.utils.DepartmentComparator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,12 +22,12 @@ public class DispatchService {
     @Value("${url.statistic.service}")
     private String statisticServiceUrl;
 
-    public List<CoordinatesDepartmentDto>
-    getPrioritizedOffices(double latitude, double longitude, int countOffices, String time, FilterDto filterDto){
-        var offices = getOfficesFromInfoService(filterDto);
+    public List<CoordinatesDto>
+    getPrioritizedOffices(double latitude, double longitude, int countOffices, String time, FilterDepartmentsDto filterDepartmentsDto) {
+        var offices = getOfficesFromInfoService(filterDepartmentsDto);
         var nearestOffice = calculateDistance.findNearestOffices(offices, latitude, longitude, countOffices);
         var departmentsIdDto = DepartmentsIdDto.builder()
-                .ids(nearestOffice.stream().map(CoordinatesDepartmentDto::getId).toList())
+                .ids(nearestOffice.stream().map(CoordinatesDto::getId).toList())
                 .day(Converter.getDayFromTimestamp(Timestamp.valueOf(time)))
                 .hour(Converter.getHourFromTimestamp(Timestamp.valueOf(time)))
                 .build();
@@ -45,25 +42,31 @@ public class DispatchService {
         return nearestOffice;
     }
 
+    public List<CoordinatesDto>
+    getPrioritizedAtms(double latitude, double longitude, int countOffices, String time, FilterAtmsDto filterAtmsDto) {
+        var atms = getAtmsFromInfoService(filterAtmsDto);
+        return calculateDistance.findNearestOffices(atms, latitude, longitude, countOffices);
+    }
 
 
-    private List<CoordinatesDepartmentDto>
-    getOfficesFromInfoService(FilterDto filterDto){
-        if (filterDto == null){
+
+    private List<CoordinatesDto>
+    getOfficesFromInfoService(FilterDepartmentsDto filterDepartmentsDto){
+        if (filterDepartmentsDto == null){
             return webClientBuilder.build()
                     .post()
                     .uri(infoServiceUrl + "/offices/coordinates")
                     .retrieve()
-                    .bodyToFlux(CoordinatesDepartmentDto.class)
+                    .bodyToFlux(CoordinatesDto.class)
                     .collectList()
                     .block();
         }
         return webClientBuilder.build()
                 .post()
                 .uri(infoServiceUrl + "/offices/coordinates")
-                .bodyValue(filterDto)
+                .bodyValue(filterDepartmentsDto)
                 .retrieve()
-                .bodyToFlux(CoordinatesDepartmentDto.class)
+                .bodyToFlux(CoordinatesDto.class)
                 .collectList()
                 .block();
     }
@@ -79,5 +82,28 @@ public class DispatchService {
                 .collectList()
                 .block();
     }
+
+    private List<CoordinatesDto>
+    getAtmsFromInfoService(FilterAtmsDto filterAtmsDto){
+        if (filterAtmsDto == null){
+            return webClientBuilder.build()
+                    .post()
+                    .uri(infoServiceUrl + "/atms/coordinates")
+                    .retrieve()
+                    .bodyToFlux(CoordinatesDto.class)
+                    .collectList()
+                    .block();
+        }
+        return webClientBuilder.build()
+                .post()
+                .uri(infoServiceUrl + "/atms/coordinates")
+                .bodyValue(filterAtmsDto)
+                .retrieve()
+                .bodyToFlux(CoordinatesDto.class)
+                .collectList()
+                .block();
+    }
+
+
 
 }

@@ -1,14 +1,14 @@
 package com.example.recomendationservice.service;
 
-import com.example.recomendationservice.dto.CoordinatesDepartmentDto;
+import com.example.recomendationservice.dto.CoordinatesDto;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class CalculateDistance {
-    public List<CoordinatesDepartmentDto>
-    findNearestOffices(List<CoordinatesDepartmentDto> offices ,Double latitude, Double longitude, int numberOfOffices) {
+    public List<CoordinatesDto>
+    findNearestOffices(List<CoordinatesDto> offices , Double latitude, Double longitude, int numberOfOffices) {
 
         if (offices.isEmpty()) {
             return new ArrayList<>();
@@ -19,7 +19,7 @@ public class CalculateDistance {
             office.setDistance(distance);
         }
 
-        offices.sort(Comparator.comparingDouble(CoordinatesDepartmentDto::getDistance));
+        offices.sort(Comparator.comparingDouble(CoordinatesDto::getDistance));
         return offices.subList(0, Math.min(numberOfOffices, offices.size()));
     }
 

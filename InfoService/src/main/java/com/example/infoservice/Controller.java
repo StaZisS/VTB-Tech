@@ -1,7 +1,8 @@
 package com.example.infoservice;
 
-import com.example.infoservice.dto.CoordinatesDepartmentDto;
-import com.example.infoservice.dto.FilterDto;
+import com.example.infoservice.dto.CoordinatesDto;
+import com.example.infoservice.dto.FilterAtmsDto;
+import com.example.infoservice.dto.FilterDepartmentDto;
 import com.example.infoservice.entity.AtmEntity;
 import com.example.infoservice.entity.DepartmentEntity;
 import com.example.infoservice.repository.AtmRepo;
@@ -24,16 +25,17 @@ public class Controller {
     private final FilterService filterService;
 
     @GetMapping ("/offices")
-    public ResponseEntity<List<DepartmentEntity>> getDepartments(@RequestBody(required = false) FilterDto filterDto){
-        return ResponseEntity.ok(filterService.filterDepartment(filterDto));
+    public ResponseEntity<List<DepartmentEntity>> getDepartments(@RequestBody(required = false) FilterDepartmentDto filterDepartmentDto){
+        return ResponseEntity.ok(filterService.filterDepartment(filterDepartmentDto));
     }
 
     @PostMapping("/offices/coordinates")
-    public ResponseEntity<List<CoordinatesDepartmentDto>> getDepartmentsCoordinates(@RequestBody(required = false) FilterDto filterDto){
+    public ResponseEntity<List<CoordinatesDto>>
+    getDepartmentsCoordinates(@RequestBody(required = false) FilterDepartmentDto filterDepartmentDto){
         return ResponseEntity.ok(
-                filterService.filterDepartment(filterDto).stream().map(
+                filterService.filterDepartment(filterDepartmentDto).stream().map(
                 departmentEntity ->
-                        CoordinatesDepartmentDto.builder()
+                        CoordinatesDto.builder()
                         .latitude(departmentEntity.getLatitude())
                         .longitude(departmentEntity.getLongitude())
                         .id(departmentEntity.getId())
@@ -52,6 +54,22 @@ public class Controller {
     public ResponseEntity<List<AtmEntity>> getAtms(){
         return ResponseEntity.ok(atmRepo.findAll());
     }
+
+    @PostMapping("/atms/coordinates")
+    public ResponseEntity<List<CoordinatesDto>>
+    getAtmsCoordinates(@RequestBody(required = false) FilterAtmsDto filterAtmsDto) {
+        return ResponseEntity.ok(
+                filterService.filterAtm(filterAtmsDto).stream().map(
+                        atmEntity ->
+                                CoordinatesDto.builder()
+                                        .latitude(atmEntity.getLatitude())
+                                        .longitude(atmEntity.getLongitude())
+                                        .id(atmEntity.getId())
+                                        .build()
+                ).toList()
+        );
+    }
+
 
     @GetMapping("/atms/{id}")
     public ResponseEntity<AtmEntity> getAtmById(@PathVariable UUID id) {

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CoordinatesDepartmentDto {
+public class CoordinatesDto {
     private double latitude;
     private double longitude;
     private UUID id;
