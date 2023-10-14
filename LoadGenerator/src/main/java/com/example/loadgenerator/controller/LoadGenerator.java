@@ -22,7 +22,7 @@ public class LoadGenerator implements CommandLineRunner {
 
     @Value("${generator.speed}")
     private int tts;
-    @Value("${info.service.url}")
+    @Value("${statistic.service.url}")
     private String url;
 
     @Override

@@ -5,6 +5,7 @@ import com.example.loadgenerator.dto.RequestDto;
 import com.example.loadgenerator.entity.ServiceDepartmentEnum;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,6 +18,9 @@ public class DataGeneratorService {
     private final WebClient.Builder webClientBuilder;
     private List<DepartmentTimeAndServicesDto> departmentTimeAndServices;
     private final Random random = new Random();
+
+    @Value("${info.service.url}")
+    private String infoServiceUrl;
 
     public RequestDto generate() {
         var department = departmentTimeAndServices.get(random.nextInt(departmentTimeAndServices.size()));
@@ -47,10 +51,9 @@ public class DataGeneratorService {
     }
 
     public List<DepartmentTimeAndServicesDto> getDepartmentTimeAndServices() {
-        String urlDepartment = "http://localhost:8080/info_service/departments";
         return webClientBuilder.build()
                 .get()
-                .uri(urlDepartment)
+                .uri(infoServiceUrl + "/offices")
                 .retrieve()
                 .bodyToFlux(DepartmentTimeAndServicesDto.class)
                 .collectList()

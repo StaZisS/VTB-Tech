@@ -1,5 +1,8 @@
 package com.example.statisticservice.service;
 
+import com.example.statisticservice.entity.DaysEntity;
+import com.example.statisticservice.entity.LoadEnum;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -17,4 +20,37 @@ public class Converter {
         }
         return Collections.emptyList();
     }
+
+    public static LoadEnum getLoad(int count){
+        if (count < LoadEnum.LOW.getValue()){
+            return LoadEnum.LOW;
+        }
+        if (count < LoadEnum.MEDIUM.getValue()){
+            return LoadEnum.MEDIUM;
+        }
+        return LoadEnum.HIGH;
+    }
+
+    public static int parseDayAndHourAndGetLoad(List<DaysEntity> days, String day, int hour){
+        var dayEntity = days.stream()
+                .filter(d -> d.getDay().equals(day))
+                .findFirst();
+        if (dayEntity.isEmpty()){
+            return 0;
+        }
+        var daysEntity = dayEntity.get();
+        var hourEntity = daysEntity.getHour().stream()
+                .filter(h -> h.getHour() == hour)
+                .findFirst();
+        if (hourEntity.isEmpty()){
+            return 0;
+        }
+        var count = 0;
+        for (var serviceCount : hourEntity.get().getHourlyServiceCount()){
+            count += serviceCount.getCount();
+        }
+        return count;
+    }
+
+
 }
