@@ -27,7 +27,7 @@ public class OfficeService {
 
         for (Office office : offices) {
             double distance = calculateUserDistance(latitude, longitude, office.getLatitude(), office.getLongitude());
-            if (nearestOfficesQueue.size() < numberOfOffices || distance < nearestOfficesQueue.peek().getDistance()) {
+            if (nearestOfficesQueue.size() < numberOfOffices || distance < Objects.requireNonNull(nearestOfficesQueue.peek()).getDistance()) {
                 office.setDistance(distance);
                 nearestOfficesQueue.offer(office);
             }
