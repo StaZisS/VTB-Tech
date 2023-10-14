@@ -22,13 +22,13 @@ public class Controller {
     private final DepartmentRepo departmentRepo;
     private final AtmRepo atmRepo;
 
-    @GetMapping ("/departments")
+    @GetMapping ("/offices")
     public ResponseEntity<List<DepartmentEntity>> getDepartments(){
         var departments = departmentRepo.findAll();
         return ResponseEntity.ok(departments.subList(0, departments.size()/4));
     }
 
-    @GetMapping ("/departments/{id}")
+    @GetMapping ("/offices/{id}")
     public ResponseEntity<DepartmentEntity> getDepartmentById(@PathVariable UUID id) {
         Optional<DepartmentEntity> department = departmentRepo.findById(id);
         return department.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());

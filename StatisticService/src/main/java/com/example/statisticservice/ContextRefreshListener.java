@@ -8,6 +8,7 @@ import com.example.statisticservice.entity.StatisticEntity;
 import com.example.statisticservice.repository.StatisticRepo;
 import com.example.statisticservice.service.Converter;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -22,10 +23,13 @@ import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 @Component
 @Order(LOWEST_PRECEDENCE)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ContextRefreshListener implements ApplicationListener<ContextRefreshedEvent> {
     private final WebClient.Builder webClientBuilder;
     private final StatisticRepo statisticRepo;
+
+    @Value("${info.service.url}")
+    private String infoServiceUrl;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -72,10 +76,9 @@ public class ContextRefreshListener implements ApplicationListener<ContextRefres
     }
 
     public List<DepartmentTimeAndServicesDto> getDepartmentTimeAndServices() {
-        String urlDepartment = "http://localhost:8080/info_service/departments";
         return webClientBuilder.build()
                 .get()
-                .uri(urlDepartment)
+                .uri(infoServiceUrl)
                 .retrieve()
                 .bodyToFlux(DepartmentTimeAndServicesDto.class)
                 .collectList()
