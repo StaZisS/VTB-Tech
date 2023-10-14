@@ -4,7 +4,7 @@ import com.example.mobiletech.OfficeRepository;
 import com.example.mobiletech.entity.Office;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OfficeService {
@@ -15,32 +15,42 @@ public class OfficeService {
         this.officeRepository = officeRepository;
     }
 
-    public Office findNearestOffice(Double latitude, Double longitude) {
+    public List<Office> findNearestOffices(Double latitude, Double longitude, int numberOfOffices) {
         List<Office> offices = officeRepository.findAll();
 
         if (offices.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
-        Office nearestOffice = null;
-        double minDistance = Double.MAX_VALUE;
+        Queue<Office> nearestOfficesQueue = new PriorityQueue<>(numberOfOffices, Comparator.comparingDouble(office ->
+                calculateUserDistance(latitude, longitude, office.getLatitude(), office.getLongitude())));
 
         for (Office office : offices) {
-            double distance = calculateDistance(latitude, longitude, office.getLatitude(), office.getLongitude());
-            if (distance < minDistance) {
-                minDistance = distance;
-                nearestOffice = office;
+            double distance = calculateUserDistance(latitude, longitude, office.getLatitude(), office.getLongitude());
+            if (nearestOfficesQueue.size() < numberOfOffices || distance < nearestOfficesQueue.peek().getDistance()) {
+                office.setDistance(distance);
+                nearestOfficesQueue.offer(office);
+            }
+            if (nearestOfficesQueue.size() > numberOfOffices) {
+                nearestOfficesQueue.poll();
             }
         }
-
-        return nearestOffice;
+        List<Office> nearestOffices = new ArrayList<>(nearestOfficesQueue);
+        nearestOffices.sort(Comparator.comparing(Office::getDistance));
+        return nearestOffices;
     }
 
-    private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    private double calculateUserDistance(double lat1, double lon1, double lat2, double lon2) {
         return Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lon2 - lon1, 2));
     }
 
-    public void createOffice(String salePointName, String address, String status, String rko, String officeType, String salePointFormat, String suoAvailability, String hasRamp, Double latitude, Double longitude, String metroStation, Integer distance, Boolean kep, Boolean myBranch) {
+
+    public void createOffice(String salePointName, String address,
+                             String status, String rko, String officeType,
+                             String salePointFormat, String suoAvailability,
+                             String hasRamp, Double latitude, Double longitude,
+                             String metroStation, Double distance,
+                             Boolean kep, Boolean myBranch) {
         Office office = new Office();
         office.setSalePointName(salePointName);
         office.setDistance(distance);
