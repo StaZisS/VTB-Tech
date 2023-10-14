@@ -6,4 +6,7 @@ public enum ServiceDepartmentEnum {
     TAKE_MORTGAGE,
     MAKE_TRANSFER,
     REPAY_LOAN,
+    APPLY_FOR_BUSINESS_CARD,
+    OPEN_RKO,
+    ;
 }
