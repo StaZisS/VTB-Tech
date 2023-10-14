@@ -1,6 +1,7 @@
 package com.example.statisticservice.controller;
 
 import com.example.statisticservice.dto.DepartmentsIdDto;
+import com.example.statisticservice.dto.SimpleStatisticADayDto;
 import com.example.statisticservice.dto.SimpleStatisticDto;
 import com.example.statisticservice.entity.StatisticEntity;
 import com.example.statisticservice.repository.StatisticRepo;
@@ -40,6 +41,25 @@ public class SupplyStatistic {
                                         ).build()
                         ).toList()
         );
+    }
+
+    @GetMapping("/office/{id}")
+    public ResponseEntity<SimpleStatisticADayDto> getStatisticADay(
+            @PathVariable UUID id,
+            @RequestParam String day
+    ){
+        return statisticRepo.findById(id)
+                .map(statisticEntity -> SimpleStatisticADayDto.builder()
+                        .hours(
+                                Converter.getStatisticADay(
+                                        statisticEntity.getDays().stream()
+                                                .filter(dayEntity -> dayEntity.getDay().equals(day))
+                                                .findFirst()
+                                                .orElse(null)
+                                )
+                        )
+                        .build()).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

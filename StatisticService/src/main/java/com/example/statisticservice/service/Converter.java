@@ -2,6 +2,7 @@ package com.example.statisticservice.service;
 
 import com.example.statisticservice.entity.DaysEntity;
 import com.example.statisticservice.entity.LoadEnum;
+import com.example.statisticservice.entity.StatisticHour;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,6 +51,24 @@ public class Converter {
             count += serviceCount.getCount();
         }
         return count;
+    }
+
+    public static List<StatisticHour> getStatisticADay(DaysEntity daysEntity){
+        if(daysEntity == null){
+            return Collections.emptyList();
+        }
+        var res = new java.util.ArrayList<StatisticHour>();
+        for (var hour : daysEntity.getHour()){
+            var count = 0;
+            for (var serviceCount : hour.getHourlyServiceCount()){
+                count += serviceCount.getCount();
+            }
+            res.add(StatisticHour.builder()
+                    .hour(hour.getHour())
+                    .load(getLoad(count))
+                    .build());
+        }
+        return res;
     }
 
 
