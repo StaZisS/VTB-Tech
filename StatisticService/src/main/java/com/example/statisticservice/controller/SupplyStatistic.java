@@ -6,6 +6,8 @@ import com.example.statisticservice.dto.SimpleStatisticDto;
 import com.example.statisticservice.entity.StatisticEntity;
 import com.example.statisticservice.repository.StatisticRepo;
 import com.example.statisticservice.service.Converter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,8 @@ public class SupplyStatistic {
         );
     }
 
+
+    @Operation(summary = "Получить загруженность по дню")
     @GetMapping("/office/{id}")
     public ResponseEntity<SimpleStatisticADayDto> getStatisticADay(
             @PathVariable UUID id,

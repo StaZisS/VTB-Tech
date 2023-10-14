@@ -4,18 +4,22 @@ import com.example.recomendationservice.dto.CoordinatesDto;
 import com.example.recomendationservice.dto.FilterAtmsDto;
 import com.example.recomendationservice.dto.FilterDepartmentsDto;
 import com.example.recomendationservice.service.DispatchService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "MainController", description = "Controller for dispatching")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class MainController {
     private final DispatchService dispatchService;
 
+    @Operation(summary = "Получить список рекомендованных офисов")
     @GetMapping("/offices/{latitude}/{longitude}/{countOffices}/{time}")
     public ResponseEntity<List<CoordinatesDto>>
     getPrioritizedOffices(@PathVariable double latitude,
@@ -31,6 +35,7 @@ public class MainController {
                 );
     }
 
+    @Operation(summary = "Получить список рекомендованных банкоматов")
     @GetMapping("/atms/{latitude}/{longitude}/{countAtms}/{time}")
     public ResponseEntity<List<CoordinatesDto>>
             getPrioritizedAtms(@PathVariable double latitude,
