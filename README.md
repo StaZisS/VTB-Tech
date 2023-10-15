@@ -8,23 +8,23 @@ cd VTB-Tech
 docker-compose up
 ```
 
-### ChatBot: ChatBot\/src\/main\/java\/com\/example\/chatbot\/ChatBotApplication.java
+### [ChatBot](ChatBot/src/main/java/com/example/chatbot/ChatBotApplication.java)
 
 #### port: 8086
 
-### InfoService: InfoService/src/main/java/com/example/infoservice/InfoServiceApplication.java
+### [InfoService](InfoService/src/main/java/com/example/infoservice/InfoServiceApplication.java)
 
 #### port: 8080
 
-### RecomendationService: RecomendationService/src/main/java/com/example/recomendationservice/RecomendationServiceApplication.java
+### [RecomendationService](RecomendationService/src/main/java/com/example/recomendationservice/RecomendationServiceApplication.java)
 
 #### port: 8085
 
-### StatisticsService: StatisticsService/src/main/java/com/example/statisticsservice/StatisticsServiceApplication.java
+### [StatisticsService](StatisticsService/src/main/java/com/example/statisticsservice/StatisticsServiceApplication.java)
 
 #### port: 8081
 
-### LoadGenerator: LoadGenerator/src/main/java/com/example/loadgenerator/LoadGeneratorApplication.java
+### [LoadGenerator](LoadGenerator/src/main/java/com/example/loadgenerator/LoadGeneratorApplication.java)
 
 #### port: 8082
 
