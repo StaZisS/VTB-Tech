@@ -53,7 +53,7 @@ public class DataGeneratorService {
     public List<DepartmentTimeAndServicesDto> getDepartmentTimeAndServices() {
         return webClientBuilder.build()
                 .get()
-                .uri(infoServiceUrl + "/offices")
+                .uri(infoServiceUrl)
                 .retrieve()
                 .bodyToFlux(DepartmentTimeAndServicesDto.class)
                 .collectList()
