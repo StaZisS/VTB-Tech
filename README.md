@@ -8,7 +8,7 @@ cd VTB-Tech
 docker-compose up
 ```
 
-### ChatBot: ChatBot//src//main//java//com//example//chatbot//ChatBotApplication.java
+### ChatBot: ChatBot\/src\/main\/java\/com\/example\/chatbot\/ChatBotApplication.java
 
 #### port: 8086
 
