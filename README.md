@@ -26,7 +26,7 @@ docker-compose up
 
 #### port: 8082
 
-## Swagger
+## Swagger (развернут локально, сначала поднимите все контейнеры) 
 
 ### [ChatBot](http://localhost:8086/swagger-ui.html)
 
