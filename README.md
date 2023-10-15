@@ -7,7 +7,12 @@ git clone https://github.com/StaZisS/VTB-Tech.git
 cd VTB-Tech
 docker-compose up
 ```
-
+## Описание работы сервисов
+- InfoService - централизованное хранилище данных.
+- StatisticService - собирает статистику и отдает ее RecomendationService
+- ChatBotService - выдает услуги по запросам от клиента на естественном языке
+- RecommedationService - фильтрует офисы/банкоматы по доступности для клиента
+- LoadGenerator - внутренний сервис, который эмулирует активность в отделениях/банкоматах.
 
 ## Tech-Stack
 - SpringBoot for Java
@@ -27,7 +32,7 @@ docker-compose up
 
 #### port: 8080
 
-### [RecomendationService](RecomendationService/src/main/java/com/example/recomendationservice/RecomendationServiceApplication.java)
+### [RecommendationService](RecomendationService/src/main/java/com/example/recomendationservice/RecomendationServiceApplication.java)
 
 #### port: 8085
 
