@@ -8,6 +8,15 @@ cd VTB-Tech
 docker-compose up
 ```
 
+
+## Tech-Stack
+- SpringBoot for Java
+- Docker 
+- Microservice Architecture
+- PostgreSQL
+- Lombok
+- Spring Security
+
 ### [ChatBot](ChatBot/src/main/java/com/example/chatbot/ChatBotApplication.java)
 
 #### port: 8086
