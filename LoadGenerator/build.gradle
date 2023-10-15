@@ -17,6 +17,12 @@ configurations {
     }
 }
 
+task run(type: JavaExec) {
+    main = 'com.example.loadgenerator.LoadGeneratorApplication'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
 repositories {
     mavenCentral()
 }

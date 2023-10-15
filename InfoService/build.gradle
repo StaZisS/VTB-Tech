@@ -17,6 +17,11 @@ configurations {
     }
 }
 
+task run(type: JavaExec) {
+    main = 'com.example.infoservice.InfoServiceApplication'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 repositories {
     mavenCentral()
 }

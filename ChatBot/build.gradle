@@ -17,11 +17,17 @@ configurations {
     }
 }
 
+task run(type: JavaExec) {
+    main = 'com.example.chatbot.ChatBotApplication'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
