@@ -7,7 +7,7 @@ git clone https://github.com/StaZisS/VTB-Tech.git
 cd VTB-Tech
 docker-compose up
 ```
-
+#### Android-клиент - https://github.com/Lvntt/MoreTechHackathon
 
 ## Реализовали алгоритм по поиску оптимально офиса/банкомата на основании его загруженности и расстояния до клиента. Не хватило времени связать клиент и сервер. Docker готов при запуске можно перейти в swager и посмотреть какие endpoint существуют
 
